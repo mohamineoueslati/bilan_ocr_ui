@@ -6,10 +6,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  public isCollapsed = true;
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  public toggleNavBar(): void {
+    this.isCollapsed = !this.isCollapsed;
   }
 
 }
