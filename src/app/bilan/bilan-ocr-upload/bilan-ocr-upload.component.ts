@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { BilanInfo } from 'src/app/models/bilan-info.model';
+import { BilanDocument } from 'src/app/models/bilan-document.model';
 import { BilanService } from 'src/app/services/bilan.service';
 
 @Component({
@@ -17,15 +17,15 @@ export class BilanOcrUploadComponent implements OnInit {
 
   public onSubmit(form: NgForm): void {
     if (form.valid && this.document) {
-      const bilanInfo = new BilanInfo(
-        form.value.matricule,
-        form.value.rs,
-        form.value.year,
-        form.value.etat,
-        this.document
-      );
+      const bilanDoc: BilanDocument = {
+        matricule: form.value.matricule,
+        rs: form.value.rs,
+        year: form.value.year,
+        etat: form.value.etat,
+        document: this.document,
+      };
 
-      this.bilanService.postBilan(bilanInfo).subscribe();
+      this.bilanService.postBilan(bilanDoc).subscribe();
     }
   }
 
