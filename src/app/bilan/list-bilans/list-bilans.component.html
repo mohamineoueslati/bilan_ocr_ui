@@ -1,0 +1,75 @@
+<div class="container mt-5">
+  <form>
+    <div class="mb-3 row">
+      <div class="col-xs-3 col-sm-auto">
+        <input
+          id="table-complete-search"
+          type="text"
+          class="form-control"
+          name="searchTerm"
+          [(ngModel)]="bilanService.searchTerm"
+          placeholder="Search"
+        />
+      </div>
+      <span class="col col-form-label" *ngIf="bilanService.loading$ | async"
+        >Loading...</span
+      >
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col" sortable="matricule" (sort)="onSort($event)">
+            Matricule
+          </th>
+          <th scope="col" sortable="rs" (sort)="onSort($event)">RS</th>
+          <th scope="col" sortable="year" (sort)="onSort($event)">Année</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let bilan of bilans | async; let i = index">
+          <th scope="row">{{ i + 1 }}</th>
+          <td>
+            <ngb-highlight
+              [result]="bilan.matricule"
+              [term]="bilanService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="bilan.rs"
+              [term]="bilanService.searchTerm"
+            ></ngb-highlight>
+          </td>
+          <td>
+            <ngb-highlight
+              [result]="bilan.year.toString()"
+              [term]="bilanService.searchTerm"
+            ></ngb-highlight>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="d-flex justify-content-between p-2">
+      <ngb-pagination
+        [collectionSize]="(total | async)!"
+        [(page)]="bilanService.page"
+        [pageSize]="bilanService.pageSize"
+      >
+      </ngb-pagination>
+
+      <select
+        class="form-select"
+        style="width: auto"
+        name="pageSize"
+        [(ngModel)]="bilanService.pageSize"
+      >
+        <option [ngValue]="2">2 items per page</option>
+        <option [ngValue]="4">4 items per page</option>
+        <option [ngValue]="6">6 items per page</option>
+      </select>
+    </div>
+  </form>
+</div>
