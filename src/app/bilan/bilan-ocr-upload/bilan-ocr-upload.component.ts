@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BilanDocument } from 'src/app/models/bilan-document.model';
 import { BilanService } from 'src/app/services/bilan.service';
 
@@ -10,8 +11,9 @@ import { BilanService } from 'src/app/services/bilan.service';
 })
 export class BilanOcrUploadComponent implements OnInit {
   private document?: File;
+  public isLoading = false;
 
-  constructor(private bilanService: BilanService) {}
+  constructor(private bilanService: BilanService, private route: Router) {}
 
   ngOnInit(): void {}
 
@@ -25,7 +27,11 @@ export class BilanOcrUploadComponent implements OnInit {
         document: this.document,
       };
 
-      this.bilanService.postBilan(bilanDoc).subscribe();
+      this.isLoading = true;
+      this.bilanService.postBilan(bilanDoc).subscribe((bilan) => {
+        this.isLoading = false;
+        this.route.navigate(['bilan', 'details', bilan.matricule]);
+      });
     }
   }
 

@@ -1,6 +1,6 @@
 import { Bilan } from './bilan.model';
 
 export interface BilanResponse extends Bilan {
-  createdAt: Date;
+  createdAt: string;
   ownerUsername: string;
 }

@@ -35,6 +35,7 @@ export interface Bilan extends BilanInfo {
   chargesPersonnel: number;
   dotationsAmmort: number;
   autresChargesExploit: number;
+  resultatExploitation: number;
   chargesFinanciere: number;
   produitsPlacements: number;
   autresGains: number;

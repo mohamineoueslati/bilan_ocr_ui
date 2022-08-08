@@ -1,9 +1,9 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { Observable } from 'rxjs';
-import { SortableTableDirective } from 'src/app/directives/sortable-table.directive';
+import { Component, OnInit } from '@angular/core';
+
+import { h, UserConfig } from 'gridjs';
+import { environment } from 'src/environments/environment';
 import { BilanResponse } from 'src/app/models/bilan-response.model';
-import { SortEvent } from 'src/app/models/sort-event.model';
-import { BilanService } from 'src/app/services/bilan.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-bilans',
@@ -11,30 +11,50 @@ import { BilanService } from 'src/app/services/bilan.service';
   styleUrls: ['./list-bilans.component.css'],
 })
 export class ListBilansComponent implements OnInit {
-  public bilans: Observable<BilanResponse[]>;
-  public total: Observable<number>;
+  private baseUrl = environment.apiBaseUrl;
 
-  @ViewChildren(SortableTableDirective)
-  private headers?: QueryList<SortableTableDirective>;
+  public gridConfig: UserConfig = {
+    columns: [
+      'Matricule',
+      'RS',
+      'Année',
+      {
+        name: 'Actions',
+        formatter: (_, row) =>
+          h(
+            'button',
+            {
+              class: 'btn btn-primary',
+              onClick: () =>
+                this.router.navigate(['bilan', 'details', row.cells[3].data]),
+            },
+            'Afficher plus'
+          ),
+      },
+    ],
+    sort: true,
+    search: true,
+    pagination: {
+      enabled: true,
+      limit: 10,
+      server: {
+        url: (prev, page, limit) => `${prev}?page=${page}&size=${limit}`,
+      },
+    },
+    server: {
+      url: `${this.baseUrl}/bilans`,
+      then: (res) =>
+        res.bilans.map((bilan: BilanResponse) => [
+          bilan.matricule,
+          bilan.rs,
+          bilan.year,
+          bilan.matricule,
+        ]),
+      total: (res) => res.total,
+    },
+  };
 
-  constructor(public bilanService: BilanService) {
-    this.bilans = bilanService.bilans$;
-    this.total = bilanService.total$;
-  }
+  constructor(private router: Router) {}
 
-  ngOnInit(): void {
-    this.bilanService.getBilans();
-  }
-
-  public onSort({ column, direction }: SortEvent) {
-    // resetting other headers
-    this.headers?.forEach((header) => {
-      if (header.sortable !== column) {
-        header.direction = '';
-      }
-    });
-
-    this.bilanService.sortColumn = column;
-    this.bilanService.sortDirection = direction;
-  }
+  ngOnInit(): void {}
 }

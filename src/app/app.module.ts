@@ -12,8 +12,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { BilanDetailsComponent } from './bilan/bilan-details/bilan-details.component';
 import { FormsModule } from '@angular/forms';
 import { ApiInterceptorService } from './services/api-interceptor.service';
-import { SortableTableDirective } from './directives/sortable-table.directive';
-import { DecimalPipe } from '@angular/common';
+
+import { GridJsAngularModule } from 'gridjs-angular';
 
 @NgModule({
   declarations: [
@@ -23,7 +23,6 @@ import { DecimalPipe } from '@angular/common';
     ListBilansComponent,
     LoginComponent,
     BilanDetailsComponent,
-    SortableTableDirective,
   ],
   imports: [
     BrowserModule,
@@ -31,9 +30,9 @@ import { DecimalPipe } from '@angular/common';
     NgbModule,
     FormsModule,
     HttpClientModule,
+    GridJsAngularModule,
   ],
   providers: [
-    DecimalPipe,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: ApiInterceptorService,
