@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Dependencies
 
-This project assume that you have installed `nodejs lts` and the angular cli version >= 13.
+This project assumes that you have installed `nodejs lts` and the angular cli version >= 13.
 
 You could download and install nodejs from this link https://nodejs.org/en/ (choose the lts version).
 
