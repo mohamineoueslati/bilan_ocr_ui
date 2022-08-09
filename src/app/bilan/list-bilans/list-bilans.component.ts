@@ -18,15 +18,17 @@ export class ListBilansComponent implements OnInit {
       'Matricule',
       'RS',
       'Année',
+      'Etat',
+      'Publisher',
       {
         name: 'Actions',
         formatter: (_, row) =>
           h(
             'button',
             {
-              class: 'btn btn-primary',
+              class: 'btn btn-primary btn-sm',
               onClick: () =>
-                this.router.navigate(['bilan', 'details', row.cells[3].data]),
+                this.router.navigate(['bilan', 'details', row.cells[5].data]),
             },
             'Afficher plus'
           ),
@@ -48,6 +50,8 @@ export class ListBilansComponent implements OnInit {
           bilan.matricule,
           bilan.rs,
           bilan.year,
+          bilan.etat,
+          bilan.publisherUsername,
           bilan.matricule,
         ]),
       total: (res) => res.total,

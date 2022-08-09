@@ -6,7 +6,7 @@ import { BilanOcrUploadComponent } from './bilan/bilan-ocr-upload/bilan-ocr-uplo
 import { ListBilansComponent } from './bilan/list-bilans/list-bilans.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'bilan/ocr', pathMatch: 'full' },
+  { path: '', redirectTo: 'bilan/list', pathMatch: 'full' },
   {
     path: 'bilan',
     children: [

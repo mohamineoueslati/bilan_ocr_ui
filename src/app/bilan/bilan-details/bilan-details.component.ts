@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { BilanResponse } from 'src/app/models/bilan-response.model';
 import { BilanService } from 'src/app/services/bilan.service';
 
@@ -11,16 +13,45 @@ import { BilanService } from 'src/app/services/bilan.service';
 export class BilanDetailsComponent implements OnInit {
   public bilan?: BilanResponse;
 
+  public selectedBilanKey: BilanKeys = 'immoInc';
+
   constructor(
     private bilanService: BilanService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private modalService: NgbModal
   ) {}
+
+  onRowClick(key: BilanKeys, content: any) {
+    this.selectedBilanKey = key;
+    this.openModal(content);
+  }
+
+  openModal(content: any) {
+    this.modalService.open(content);
+  }
 
   ngOnInit(): void {
     const matricule = this.route.snapshot.params['matricule'];
     this.bilanService.getBilan(matricule).subscribe((bilan) => {
       this.bilan = bilan;
     });
+  }
+
+  onSubmit(f: NgForm) {
+    if (f.valid) {
+      if (this.bilan) {
+        const bilan = { ...this.bilan };
+        Object.assign(bilan, { [this.selectedBilanKey]: +f.value.value });
+
+        this.bilanService
+          .updateBilan(bilan.matricule, bilan)
+          .subscribe((bilan) => {
+            this.bilan = bilan;
+          });
+      }
+    }
+
+    this.modalService.dismissAll();
   }
 
   public valueOf(key: BilanKeys) {

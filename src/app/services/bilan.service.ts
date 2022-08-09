@@ -32,7 +32,7 @@ export class BilanService {
   }
 
   public updateBilan(matricule: string, bilan: Bilan) {
-    return this.http.put(`${this.url}/${matricule}`, bilan);
+    return this.http.put<BilanResponse>(`${this.url}/${matricule}`, bilan);
   }
 
   public deleteBilan(matricule: string) {
