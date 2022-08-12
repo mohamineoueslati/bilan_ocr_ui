@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
@@ -12,8 +13,9 @@ import { BilanService } from 'src/app/services/bilan.service';
 })
 export class BilanDetailsComponent implements OnInit {
   public bilan?: BilanResponse;
-
   public selectedBilanKey: BilanKeys = 'immoInc';
+  public isError = false;
+  public errorMsg = '';
 
   constructor(
     private bilanService: BilanService,
@@ -32,8 +34,14 @@ export class BilanDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     const matricule = this.route.snapshot.params['matricule'];
-    this.bilanService.getBilan(matricule).subscribe((bilan) => {
-      this.bilan = bilan;
+    this.bilanService.getBilan(matricule).subscribe({
+      next: (bilan) => {
+        this.bilan = bilan;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.isError = true;
+        this.errorMsg = error.error.message;
+      },
     });
   }
 
@@ -43,11 +51,11 @@ export class BilanDetailsComponent implements OnInit {
         const bilan = { ...this.bilan };
         Object.assign(bilan, { [this.selectedBilanKey]: +f.value.value });
 
-        this.bilanService
-          .updateBilan(bilan.matricule, bilan)
-          .subscribe((bilan) => {
+        this.bilanService.updateBilan(bilan.matricule, bilan).subscribe({
+          next: (bilan) => {
             this.bilan = bilan;
-          });
+          },
+        });
       }
     }
 

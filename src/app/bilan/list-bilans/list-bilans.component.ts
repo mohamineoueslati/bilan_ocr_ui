@@ -20,6 +20,7 @@ export class ListBilansComponent implements OnInit {
       'Année',
       'Etat',
       'Publisher',
+      'Created At',
       {
         name: 'Actions',
         formatter: (_, row) =>
@@ -28,7 +29,7 @@ export class ListBilansComponent implements OnInit {
             {
               class: 'btn btn-primary btn-sm',
               onClick: () =>
-                this.router.navigate(['bilan', 'details', row.cells[5].data]),
+                this.router.navigate(['bilan', 'details', row.cells[6].data]),
             },
             'Afficher plus'
           ),
@@ -46,14 +47,17 @@ export class ListBilansComponent implements OnInit {
     server: {
       url: `${this.baseUrl}/bilans`,
       then: (res) =>
-        res.bilans.map((bilan: BilanResponse) => [
-          bilan.matricule,
-          bilan.rs,
-          bilan.year,
-          bilan.etat,
-          bilan.publisherUsername,
-          bilan.matricule,
-        ]),
+        res.data.map((bilan: BilanResponse) => {
+          return [
+            bilan.matricule,
+            bilan.rs,
+            bilan.year,
+            bilan.etat,
+            bilan.publisher,
+            bilan.createdAt,
+            bilan.matricule,
+          ];
+        }),
       total: (res) => res.total,
     },
   };

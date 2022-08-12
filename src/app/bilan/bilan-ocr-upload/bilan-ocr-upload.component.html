@@ -2,9 +2,14 @@
   <div *ngIf="isLoading" class="d-flex align-items-center">
     <strong
       >Your request is being processed, this may take a while.
-      <span style="color: red">Please do not leave this page</span>
+      <span style="color: red">Please do not leave this page.</span>
     </strong>
     <div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+  </div>
+
+  <div *ngIf="isError" class="alert alert-danger alert-dismissible fade show">
+    {{ errorMsg }}
+    <button type="button" class="btn-close" (click)="isError = false"></button>
   </div>
 
   <form

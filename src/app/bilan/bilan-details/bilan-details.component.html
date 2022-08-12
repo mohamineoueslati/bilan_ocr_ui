@@ -1,5 +1,9 @@
 <div class="container mt-5">
-  <div class="bilan-details">
+  <div *ngIf="isError" class="alert alert-danger">
+    {{ errorMsg }}
+  </div>
+
+  <div *ngIf="!isError" class="bilan-details">
     <nav ngbNav #nav="ngbNav" class="nav-tabs">
       <ng-container ngbNavItem>
         <a ngbNavLink>Actifs</a>
