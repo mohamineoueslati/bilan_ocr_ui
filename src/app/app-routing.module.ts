@@ -4,11 +4,13 @@ import { LoginComponent } from './auth/login/login.component';
 import { BilanDetailsComponent } from './bilan/bilan-details/bilan-details.component';
 import { BilanOcrUploadComponent } from './bilan/bilan-ocr-upload/bilan-ocr-upload.component';
 import { ListBilansComponent } from './bilan/list-bilans/list-bilans.component';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'bilan/list', pathMatch: 'full' },
   {
     path: 'bilan',
+    canActivate: [AuthGuardService],
     children: [
       { path: 'ocr', component: BilanOcrUploadComponent },
       { path: 'list', component: ListBilansComponent },

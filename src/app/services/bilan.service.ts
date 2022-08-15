@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BilanDocument } from '../models/bilan-document.model';
 import { BilanResponse } from '../models/bilan-response.model';
@@ -12,8 +12,10 @@ export class BilanService {
 
   constructor(private http: HttpClient) {}
 
-  public getBilans() {
-    return this.http.get<BilanResponse[]>(this.url);
+  public getBilans(page: number, size: number) {
+    return this.http.get<BilanResponse[]>(this.url, {
+      params: new HttpParams().set('page', page).set('size', size),
+    });
   }
 
   public getBilan(matricule: string) {
@@ -28,7 +30,7 @@ export class BilanService {
     formData.append('etat', bilanInfo.etat);
     formData.append('document', bilanInfo.document);
 
-    return this.http.post<BilanResponse>(`${this.url}/upload`, formData);
+    return this.http.post<BilanResponse>(`${this.url}`, formData);
   }
 
   public updateBilan(matricule: string, bilan: Bilan) {

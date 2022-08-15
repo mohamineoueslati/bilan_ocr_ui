@@ -4,6 +4,8 @@ import { h, UserConfig } from 'gridjs';
 import { environment } from 'src/environments/environment';
 import { BilanResponse } from 'src/app/models/bilan-response.model';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-list-bilans',
@@ -46,6 +48,7 @@ export class ListBilansComponent implements OnInit {
     },
     server: {
       url: `${this.baseUrl}/bilans`,
+      headers: { Authorization: this.authService.token },
       then: (res) =>
         res.data.map((bilan: BilanResponse) => {
           return [
@@ -62,7 +65,7 @@ export class ListBilansComponent implements OnInit {
     },
   };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {}
 }
