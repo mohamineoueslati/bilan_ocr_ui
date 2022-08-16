@@ -25,7 +25,7 @@ export class ApiInterceptorService implements HttpInterceptor {
     let httpReq: HttpRequest<any>;
 
     if (req.url === 'login') {
-      httpReq = req.clone({ url: `${this.baseUrl}${req.url}` });
+      httpReq = req.clone({ url: `${this.baseUrl}/${req.url}` });
     } else {
       httpReq = req.clone({ url: `${this.apiBaseUrl}/${req.url}` });
     }

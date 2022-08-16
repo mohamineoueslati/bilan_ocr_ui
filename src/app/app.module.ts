@@ -14,6 +14,9 @@ import { FormsModule } from '@angular/forms';
 import { ApiInterceptorService } from './services/api-interceptor.service';
 
 import { GridJsAngularModule } from 'gridjs-angular';
+import { ListUsersComponent } from './user/list-users/list-users.component';
+import { EditUserComponent } from './user/edit-user/edit-user.component';
+import { NewUserComponent } from './user/new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,9 @@ import { GridJsAngularModule } from 'gridjs-angular';
     ListBilansComponent,
     LoginComponent,
     BilanDetailsComponent,
+    ListUsersComponent,
+    EditUserComponent,
+    NewUserComponent,
   ],
   imports: [
     BrowserModule,

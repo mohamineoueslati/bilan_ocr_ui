@@ -96,10 +96,10 @@ export class AuthService {
   }
 
   private handleError(errorRes: HttpErrorResponse) {
-    let errorMessage = 'Unkown error occured';
+    let errorMessage = "Une erreur s'est produite";
 
     if (errorRes.status === HttpStatusCode.Unauthorized) {
-      errorMessage = 'Invalid credentials';
+      errorMessage = 'Identifiants invalides';
     }
 
     return throwError(() => errorMessage);

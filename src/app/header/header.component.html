@@ -24,6 +24,16 @@
             >Mes bilans</a
           >
         </li>
+
+        <li class="nav-item">
+          <a
+            *ngIf="isAuthenticated && isAdmin"
+            class="nav-link"
+            [routerLinkActive]="'active'"
+            [routerLink]="['user', 'list']"
+            >Utilisateurs</a
+          >
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">

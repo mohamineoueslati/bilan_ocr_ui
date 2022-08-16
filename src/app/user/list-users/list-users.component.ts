@@ -1,27 +1,26 @@
 import { Component, OnInit } from '@angular/core';
-
-import { h, UserConfig } from 'gridjs';
-import { environment } from 'src/environments/environment';
-import { BilanResponse } from 'src/app/models/bilan-response.model';
 import { Router } from '@angular/router';
+import { h, UserConfig } from 'gridjs';
+import { UserResponse } from 'src/app/models/user-response.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
-  selector: 'app-list-bilans',
-  templateUrl: './list-bilans.component.html',
-  styleUrls: ['./list-bilans.component.css'],
+  selector: 'app-list-users',
+  templateUrl: './list-users.component.html',
+  styleUrls: ['./list-users.component.css'],
 })
-export class ListBilansComponent implements OnInit {
+export class ListUsersComponent implements OnInit {
   private baseUrl = environment.apiBaseUrl;
 
-  public gridConfig: UserConfig = {
+  gridConfig: UserConfig = {
     columns: [
-      'Matricule',
-      'RS',
-      'Année',
+      "Nom d'utilisateur",
+      'Prénom',
+      'Nom',
+      'Role',
+      'Date de création',
       'Etat',
-      'Publisher',
-      'Created At',
       {
         name: 'Actions',
         formatter: (_, row) =>
@@ -30,9 +29,9 @@ export class ListBilansComponent implements OnInit {
             {
               class: 'btn btn-primary btn-sm',
               onClick: () =>
-                this.router.navigate(['bilan', 'details', row.cells[6].data]),
+                this.router.navigate(['user', 'edit', row.cells[6].data]),
             },
-            'Afficher plus'
+            'Modifier'
           ),
       },
     ],
@@ -46,20 +45,21 @@ export class ListBilansComponent implements OnInit {
       },
     },
     server: {
-      url: `${this.baseUrl}/bilans`,
+      url: `${this.baseUrl}/users`,
       headers: { Authorization: this.authService.token },
-      then: (res) =>
-        res.data.map((bilan: BilanResponse) => {
+      then: (res) => {
+        return res.data.map((user: UserResponse) => {
           return [
-            bilan.matricule,
-            bilan.rs,
-            bilan.year,
-            bilan.etat,
-            bilan.publisher,
-            bilan.createdAt,
-            bilan.matricule,
+            user.username,
+            user.firstName,
+            user.lastName,
+            user.role,
+            user.createdAt,
+            user.enabled ? 'Activé' : 'Désactivé',
+            user.id,
           ];
-        }),
+        });
+      },
       total: (res) => res.total,
     },
   };
